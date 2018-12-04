@@ -89,7 +89,7 @@ def get_subgroup_list(df=None, groups=[]):
 
         subgroup_coordinates_min, subgroup_coordinates_max, group_quant = get_min_max_coordinates(depth=depth, coordinates_from=i_gr)
 
-        all_subgroups = df[(df.index >= subgroup_coordinates_min) & (df.index <= subgroup_coordinates_max) & ((df.index % group_quant) == 0)].reset_index(drop=True)
+        all_subgroups = df[df.eval("(index >= "+str(subgroup_coordinates_min)+") & (index <= "+str(subgroup_coordinates_max)+") & ((index % "+str(group_quant)+") == 0)")]
 
         res_subgroups = res_subgroups.append(all_subgroups, ignore_index=True)
 
@@ -106,7 +106,7 @@ def get_items_list(df=None, groups=[]):
 
         items_coordinates_min, items_coordinates_max, _ = get_min_max_coordinates(depth=depth, coordinates_from=i_gr)
 
-        all_items = df[(df.index >= items_coordinates_min) & (df.index <= items_coordinates_max)].reset_index(drop=True)
+        all_items = df[df.eval("(index >= "+str(items_coordinates_min)+") & (index <= "+str(items_coordinates_max)+")")]
 
         res_items = res_items.append(all_items, ignore_index=True)
 
@@ -115,7 +115,11 @@ def get_items_list(df=None, groups=[]):
 
 df = fill_an_example_table()
 
+import datetime
+
 df = df.set_index('Id')
+
+n_date = datetime.datetime.now()
 
 all_subgroups = get_subgroup_list(df, groups=[1000000, 20500, 20000])
 
@@ -124,6 +128,8 @@ print("len of all subgroups: " + str(len(all_subgroups)))
 all_items = get_items_list(df, groups=[20500, 1000000])
 
 print("len of all items: " + str(len(all_items)))
+
+print(str(datetime.datetime.now()-n_date))
 
 exit()
 
