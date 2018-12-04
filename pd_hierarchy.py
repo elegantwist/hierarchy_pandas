@@ -55,7 +55,7 @@ def get_min_max_coordinates(depth=0, coordinates_from=0):
 
     coordinates_to = coordinates_from + gr_quant - 1
 
-    return coordinates_from, coordinates_to, gr_quant/10
+    return coordinates_from, coordinates_to, gr_quant/QuantCategory
 
 
 def get_depth(group_id=0):
