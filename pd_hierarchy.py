@@ -48,6 +48,11 @@ def fill_an_example_table():
 
     return df
 
+df = fill_an_example_table()
+
+##############################################################
+# proof of concept for hierarchy implementation in pandas table
+
 
 def get_min_max_coordinates(depth=0, coordinates_from=0):
 
@@ -58,6 +63,7 @@ def get_min_max_coordinates(depth=0, coordinates_from=0):
     return coordinates_from, coordinates_to, gr_quant/QuantCategory
 
 
+# we need to find the hierarchy depth of an id
 def get_depth(group_id=0):
 
     str_group_id = str(group_id)
@@ -79,7 +85,10 @@ def get_depth(group_id=0):
     return depth
 
 
-def get_subgroup_list(df=None, groups=[]):
+def get_subgroups_list(df=None, groups=None):
+
+    if not df or not groups:
+        return None
 
     res_subgroups = pd.DataFrame()
 
@@ -96,7 +105,10 @@ def get_subgroup_list(df=None, groups=[]):
     return res_subgroups
 
 
-def get_items_list(df=None, groups=[]):
+def get_items_list(df=None, groups=None):
+
+    if not df or not groups:
+        return None
 
     res_items = pd.DataFrame()
 
@@ -113,23 +125,15 @@ def get_items_list(df=None, groups=[]):
     return res_items
 
 
-df = fill_an_example_table()
-
-import datetime
-
 df = df.set_index('Id')
 
-n_date = datetime.datetime.now()
-
-all_subgroups = get_subgroup_list(df, groups=[1000000, 20500, 20000])
+all_subgroups = get_subgroups_list(df, groups=[1000000, 20500, 20000])
 
 print("len of all subgroups: " + str(len(all_subgroups)))
 
 all_items = get_items_list(df, groups=[20500, 1000000])
 
 print("len of all items: " + str(len(all_items)))
-
-print(str(datetime.datetime.now()-n_date))
 
 exit()
 
